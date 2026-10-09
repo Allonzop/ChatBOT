@@ -1,0 +1,30 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[dev]
+  command = "npm run dev:vite"
+  targetPort = 5173
+  port = 8888
+  autoLaunch = false
+
+[functions]
+  node_bundler = "esbuild"
+  # Les prompts Markdown sont lus au démarrage des fonctions : il faut les embarquer.
+  included_files = ["prompts/**"]
+
+# Les routes /api/* sont servies par les fonctions (config.path dans chaque fichier).
+# Tout le reste est l'application React (routeur côté client).
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
