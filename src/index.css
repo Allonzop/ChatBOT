@@ -1,0 +1,106 @@
+/* Base de design reprise du site KRAON.
+   Thème sombre par défaut, variables CSS en HSL, police Inter, rayon 12 px,
+   utilitaires `glass` et `glow`. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 228 24% 6%;
+    --foreground: 220 20% 96%;
+
+    --card: 228 20% 9%;
+    --card-foreground: 220 20% 96%;
+
+    --popover: 228 20% 9%;
+    --popover-foreground: 220 20% 96%;
+
+    --primary: 262 83% 66%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 262 90% 75%;
+
+    --secondary: 228 16% 14%;
+    --secondary-foreground: 220 20% 92%;
+
+    --muted: 228 14% 15%;
+    --muted-foreground: 220 10% 62%;
+
+    --accent: 190 90% 55%;
+    --accent-foreground: 228 24% 6%;
+
+    --destructive: 0 72% 56%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 150 65% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --border: 228 14% 18%;
+    --input: 228 14% 18%;
+    --ring: 262 83% 66%;
+
+    --radius: 12px;
+  }
+
+  .dark {
+    --background: 228 24% 6%;
+    --foreground: 220 20% 96%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, hsl(var(--primary) / 0.16), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 100%, hsl(var(--accent) / 0.08), transparent);
+    background-attachment: fixed;
+    min-height: 100dvh;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.35);
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: hsl(var(--card) / 0.6);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid hsl(var(--border) / 0.8);
+  }
+
+  .glow {
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.25),
+      0 0 40px -10px hsl(var(--primary) / 0.5);
+  }
+
+  .glow-accent {
+    box-shadow:
+      0 0 0 1px hsl(var(--accent) / 0.25),
+      0 0 40px -10px hsl(var(--accent) / 0.5);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary-glow)), hsl(var(--accent)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
