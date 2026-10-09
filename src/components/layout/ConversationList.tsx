@@ -14,7 +14,7 @@ import { useConversations } from "@/lib/conversations";
 import { relativeFr } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
-export function ConversationList({ onNavigate }: { onNavigate?: () => void }) {
+export function ConversationList({ onNavigate, inSheet = false }: { onNavigate?: () => void; inSheet?: boolean }) {
   const { conversations, loading, rename, remove } = useConversations();
   const [location, navigate] = useLocation();
   const [renaming, setRenaming] = useState<Conversation | null>(null);
@@ -47,7 +47,7 @@ export function ConversationList({ onNavigate }: { onNavigate?: () => void }) {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between px-3 pb-2 pt-3">
+      <div className={cn("flex items-center justify-between px-3 pb-2 pt-3", inSheet && "pr-12")}>
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Historique</p>
         <Button asChild size="sm" variant="ghost" className="h-8 gap-1 px-2 text-xs">
           <Link href="/app" onClick={onNavigate}>

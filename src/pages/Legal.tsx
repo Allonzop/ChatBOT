@@ -12,7 +12,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 }
 
 function Todo({ children }: { children: ReactNode }) {
-  return <span className="rounded bg-accent/15 px-1 text-accent-foreground/90 text-accent">[{children}]</span>;
+  return <span className="rounded bg-accent/20 px-1 font-medium text-accent">[{children}]</span>;
 }
 
 function LegalLayout({ title, children }: { title: string; children: ReactNode }) {

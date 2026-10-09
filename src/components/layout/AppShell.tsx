@@ -71,7 +71,7 @@ export function AppShell({ children, isAdmin = false }: { children: ReactNode; i
                   <SheetTitle>Historique</SheetTitle>
                   <SheetDescription>Tes conversations</SheetDescription>
                 </SheetHeader>
-                <ConversationList onNavigate={() => setOpen(false)} />
+                <ConversationList inSheet onNavigate={() => setOpen(false)} />
               </SheetContent>
             </Sheet>
             <Link href="/app" className="flex min-w-0 items-center gap-2.5">

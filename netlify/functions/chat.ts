@@ -104,14 +104,21 @@ export default async (req: Request): Promise<Response> => {
     if (histError) throw new HttpError(500, "db_error", histError.message);
 
     // Enregistre le message utilisateur avant l'appel.
-    const { data: userMessage, error: insertError } = await db
+    const { data: insertedUser, error: insertError } = await db
       .from("messages")
       .insert({ conversation_id: conversationId, role: "user", content })
-      .select("*")
-      .single<MessageRow>();
-    if (insertError || !userMessage) throw new HttpError(500, "db_error", insertError?.message ?? "Insertion impossible.");
+      .select("id, created_at")
+      .single<{ id: string; created_at: string }>();
+    if (insertError || !insertedUser) throw new HttpError(500, "db_error", insertError?.message ?? "Insertion impossible.");
+    const userMessage: MessageRow = {
+      id: insertedUser.id,
+      conversation_id: conversationId,
+      role: "user",
+      content,
+      created_at: insertedUser.created_at ?? new Date().toISOString(),
+    };
 
-    const messages = trimHistory([...(historyRows as MessageRow[]), userMessage]);
+    const messages = trimHistory([...((historyRows ?? []) as MessageRow[]), userMessage]);
     const model = currentModel();
 
     const system: Anthropic.TextBlockParam[] = [
