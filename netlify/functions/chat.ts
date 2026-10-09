@@ -219,7 +219,9 @@ export default async (req: Request): Promise<Response> => {
         })();
       },
       cancel() {
-        stream.abort();
+        // Le navigateur a coupé (bouton « Arrêter », onglet fermé). On laisse
+        // l'appel Anthropic se terminer (max_tokens borné) pour enregistrer le
+        // message et l'usage : les tokens sont facturés de toute façon.
       },
     });
 
